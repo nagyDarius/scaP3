@@ -7,7 +7,6 @@
 #include <getopt.h>
 
 #include <time.h>
-#include <pthread.h>
 
 #include <sched.h>
 #include <limits.h>
@@ -16,7 +15,6 @@
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/timeb.h>
-
 #include <sys/socket.h>
 #include <sys/ioctl.h>
 #include <sys/uio.h>
@@ -27,12 +25,6 @@
 
 
 typedef unsigned char crc;
-typedef struct {
-        int s0;
-        unsigned char id, dlc, counter;
-        long sleep_ms;
-} send_info;
-
 
 #define POLYNOMIAL 0xDA
 #define WIDTH  (8 * sizeof(crc))
@@ -122,81 +114,14 @@ void timestamp()
         printf("\n%s  ", get_timestamp(timestamp));
 }
 
-void send_message(int s0, struct can_frame frame) {
-        char nBytes = write(s0,&frame,sizeof(frame));
-        timestamp();
-        printf("WRITE  ");
-        printf("nbytes: %d  ", nBytes);
-        printf("can_id: %02X  ", frame.can_id);
-        printf("can_dlc: %02X  data: ", frame.can_dlc);
-        for (int i = 0; i < frame.can_dlc; i++)
-                printf("%02X ", frame.data[i]);
-        // printf("crc test: %d\n", get_crc(frame.data, frame.can_dlc));
-}
-
-
-char random_byte(){
-        return rand() %256;
-}
-
-void put_message(char* message, char n){
-        for(char i=0; i<n-1; i++)
-                message[i] = random_byte();
-}
-
-void create_and_send_message(int s0, unsigned char id, unsigned char dlc, unsigned char counter){
-        struct can_frame frame;
-
-        frame.can_id=id;
-        frame.can_dlc=dlc;
-        frame.data[0] = counter;
-
-        put_message(frame.data + 1, dlc -1);
-        frame.data[dlc-1] = get_crc(frame.data, dlc-1);
-
-        send_message(s0, frame);
-}
-
-pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
-
-void *send_message_thread(void *ptr){
-
-        send_info *info = (send_info*)ptr;
-
-        while(1) {
-                pthread_mutex_lock( &mutex1 );
-                create_and_send_message(info->s0, info->id, info->dlc, info->counter++);
-                pthread_mutex_unlock( &mutex1 );
-                usleep(info->sleep_ms*1000);
-        }
-}
-
-
 int main() {
         int s0 = can_setup();
 
-        send_info info[10] = {
-                {.s0 = s0, .id = 1, .dlc = 4, .counter = 0, .sleep_ms = 1000},
-                {.s0 = s0, .id = 2, .dlc = 5, .counter = 0, .sleep_ms = 333},
-                {.s0 = s0, .id = 3, .dlc = 7, .counter = 0, .sleep_ms = 200},
-                {.s0 = s0, .id = 5, .dlc = 8, .counter = 0, .sleep_ms = 100},
-                {.s0 = s0, .id = 8, .dlc = 6, .counter = 0, .sleep_ms = 83},
-                {.s0 = s0, .id = 13, .dlc = 5, .counter = 0, .sleep_ms = 125},
-                {.s0 = s0, .id = 21, .dlc = 8, .counter = 0, .sleep_ms = 48},
-                {.s0 = s0, .id = 34, .dlc = 7, .counter = 0, .sleep_ms = 31},
-                {.s0 = s0, .id = 55, .dlc = 3, .counter = 0, .sleep_ms = 56},
-                {.s0 = s0, .id = 89, .dlc = 6, .counter = 0, .sleep_ms = 76}
-        };
+        while(1) {
+                struct can_frame frame;
+                unsigned char nbytes = read(s0, &frame, sizeof(struct can_frame));
 
-        pthread_t threads[10];
-
-        for(int i=0; i< 10; i++) {
-                pthread_create(threads+i, NULL, send_message_thread, (void*)(info+i));
+                check_and_print_message(frame);
         }
-
-        for(int i=0; i< 10; i++) {
-                pthread_join(threads[i], NULL);
-        }
-
         return 0;
 }
