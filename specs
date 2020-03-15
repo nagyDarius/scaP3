@@ -1,11 +1,11 @@
 messages:
-1: 1hz, dlc=4, data[1] = counter, data[last] remainder of data/256
-2: 3hz, dlc=5, data[1] = counter, data[last] remainder of data/256
-3: 5hz, dlc=7, data[1] = counter, data[last] remainder of data/256
-5: 10hz, dlc=8, data[1] = counter, data[last] remainder of data/256
-8: 12hz, dlc=6, data[1] = counter, data[last] remainder of data/256
-13: 8hz, dlc=9, data[1] = counter, data[last] remainder of data/256
-21: 21hz, dlc=10, data[1] = counter, data[last] remainder of data/256
-34: 32hz, dlc=7, data[1] = counter, data[last] remainder of data/256
-55: 18hz, dlc=3, data[1] = counter, data[last] remainder of data/256
-89: 13hz, dlc=9, data[1] = counter, data[last] remainder of data/256
+1: 1hz, dlc=4, data[1] = counter, data[last] crc
+2: 3hz, dlc=5, data[1] = counter, data[last] crc
+3: 5hz, dlc=7, data[1] = counter, data[last] crc
+5: 10hz, dlc=8, data[1] = counter, data[last] crc
+8: 12hz, dlc=6, data[1] = counter, data[last] crc
+13: 8hz, dlc=9, data[1] = counter, data[last] crc
+21: 21hz, dlc=10, data[1] = counter, data[last] crc
+34: 32hz, dlc=7, data[1] = counter, data[last] crc
+55: 18hz, dlc=3, data[1] = counter, data[last] crc
+89: 13hz, dlc=9, data[1] = counter, data[last] crc
