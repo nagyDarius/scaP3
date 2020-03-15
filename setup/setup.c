@@ -22,9 +22,10 @@
 
 int main()
 {
-		system("sudo ip link set vcan0 down");
+		system("sudo ip link add vcan0 type vcan");
+		printf("sudo ip link add vcan0 type vcan\n");
 		sleep(1);
-		system("sudo ip link set vcan0 up type can bitrate 500000");
-		printf("sudo ip link set vcan0 up type can bitrate 500000 \n");
+		system("sudo ip link set up vcan0");
+		printf("sudo ip link set up vcan0\n");
 		sleep(1);
 }

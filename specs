@@ -5,7 +5,7 @@ messages:
 5: 10hz, dlc=8, data[1] = counter, data[last] crc
 8: 12hz, dlc=6, data[1] = counter, data[last] crc
 13: 8hz, dlc=9, data[1] = counter, data[last] crc
-21: 21hz, dlc=10, data[1] = counter, data[last] crc
-34: 32hz, dlc=7, data[1] = counter, data[last] crc
+21: 21hz, dlc=10, data[1] = counter, data[last] crc too fast
+34: 32hz, dlc=7, data[1] = counter, data[last] crc  too fast
 55: 18hz, dlc=3, data[1] = counter, data[last] crc
 89: 13hz, dlc=9, data[1] = counter, data[last] crc

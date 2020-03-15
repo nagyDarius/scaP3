@@ -182,8 +182,8 @@ int main() {
                 {.s0 = s0, .id = 5, .dlc = 8, .counter = 0, .sleep_ms = 100},
                 {.s0 = s0, .id = 8, .dlc = 6, .counter = 0, .sleep_ms = 83},
                 {.s0 = s0, .id = 13, .dlc = 5, .counter = 0, .sleep_ms = 125},
-                {.s0 = s0, .id = 21, .dlc = 8, .counter = 0, .sleep_ms = 48},
-                {.s0 = s0, .id = 34, .dlc = 7, .counter = 0, .sleep_ms = 31},
+                {.s0 = s0, .id = 21, .dlc = 8, .counter = 0, .sleep_ms = 134},
+                {.s0 = s0, .id = 34, .dlc = 7, .counter = 0, .sleep_ms = 87},
                 {.s0 = s0, .id = 55, .dlc = 3, .counter = 0, .sleep_ms = 56},
                 {.s0 = s0, .id = 89, .dlc = 6, .counter = 0, .sleep_ms = 76}
         };
