@@ -149,10 +149,12 @@ int check_dlc(struct can_frame frame, unsigned char dlc){
         return NOT_OK;
 }
 
-int check_count(struct can_frame frame, unsigned char count){
-        if(frame.data[0] == count)
+int check_count(struct can_frame frame, receive_info* info){
+        if(info->last_ms == 0)
+                info->counter = frame.data[0];
+        if(frame.data[0] == info->counter)
                 return OK;
-        printf("count %02X not OK, expected: %02X", frame.data[0], count);
+        printf("count %02X not OK, expected: %02X", frame.data[0], info->counter);
         return NOT_OK;
 }
 
@@ -198,7 +200,7 @@ void check_and_print_message(struct can_frame frame, receive_info* infos){
         if(dlc_ok == NOT_OK)
                 return;
 
-        int counter_ok = check_count(frame, info->counter);
+        int counter_ok = check_count(frame, info);
         if(counter_ok == NOT_OK)
                 return;
 
